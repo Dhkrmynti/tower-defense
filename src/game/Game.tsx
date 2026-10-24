@@ -847,47 +847,47 @@ export function Game({ memex, onLeaveMemex }: { memex: boolean; onLeaveMemex: ()
 
       {/* ───────── title ───────── */}
       {hud.status === 'title' ? (
-        <div className="absolute inset-0 z-30 flex flex-col items-center justify-center overflow-y-auto px-4 py-20 text-center max-sm:justify-start max-sm:pt-[9.5rem] short:justify-start short:pb-6 short:pt-[4.6rem]">
+        <div className="absolute inset-0 z-30 flex flex-col items-center justify-center overflow-hidden px-4 pb-8 pt-[7.5rem] text-center max-sm:pt-[9.5rem] short:pt-[4.6rem] short:pb-6">
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }} className="max-w-[46rem]">
-            <BastionMark className="mx-auto h-14 w-14 sm:h-16 sm:w-16 short:hidden" />
-            <p className="m-0 mt-3 hud text-[0.66rem] text-shield">{tokenSymbol} · Robinhood Chain · chain 4663</p>
-            <h1 className="m-0 mt-2 sign-lettering text-[clamp(3rem,10vw,6.5rem)] leading-none text-cream short:text-[2.4rem]">BASTION</h1>
-            <p className="m-0 mt-2 display text-[clamp(1rem,2.6vw,1.6rem)] text-brass">{TAGLINE}</p>
-            <p className="mx-auto mt-4 max-w-[52ch] text-[clamp(0.88rem,1.3vw,1.05rem)] leading-relaxed text-dust short:hidden">
+            <BastionMark className="mx-auto h-[clamp(2.2rem,7svh,4rem)] w-[clamp(2.2rem,7svh,4rem)] short:hidden" />
+            <p className="m-0 mt-[1svh] hud text-[0.66rem] text-shield">{tokenSymbol} · Robinhood Chain · chain 4663</p>
+            <h1 className="m-0 mt-[0.6svh] sign-lettering text-[clamp(2.4rem,min(10vw,11svh),6.5rem)] leading-none text-cream short:text-[2.4rem]">BASTION</h1>
+            <p className="m-0 mt-[0.8svh] display text-[clamp(0.95rem,min(2.6vw,2.6svh),1.6rem)] text-brass">{TAGLINE}</p>
+            <p className="mx-auto mt-[1.6svh] max-w-[52ch] text-[clamp(0.85rem,1.3vw,1.02rem)] leading-snug text-dust short:hidden mid:hidden">
               Every trade arms the fortress. Every round the Warden buys {tokenSymbol} back and purges the red horde to 0x…dEaD. Hold the gate, build on the mounts, call in the airstrikes, and research the heavy guns.
             </p>
-            <div className="mt-6 flex flex-wrap items-center justify-center gap-3 short:mt-3 short:gap-2">
-              <button type="button" onClick={() => setModal('campaign')} className="btn-fire cursor-pointer px-7 py-4 text-[0.9rem] short:px-5 short:py-2.5 short:text-[0.75rem]">
+            <div className="mt-[2.4svh] flex flex-wrap items-center justify-center gap-3 short:mt-3 short:gap-2">
+              <button type="button" onClick={() => setModal('campaign')} className="btn-fire cursor-pointer px-7 py-[clamp(0.6rem,1.8svh,1rem)] text-[0.9rem] short:px-5 short:py-2.5 short:text-[0.75rem]">
                 <Swords className="h-5 w-5" />
                 Campaign
               </button>
-              <button type="button" onClick={() => setModal('survival')} className="btn-fire cursor-pointer px-7 py-4 text-[0.9rem] short:px-5 short:py-2.5 short:text-[0.75rem]">
+              <button type="button" onClick={() => setModal('survival')} className="btn-fire cursor-pointer px-7 py-[clamp(0.6rem,1.8svh,1rem)] text-[0.9rem] short:px-5 short:py-2.5 short:text-[0.75rem]">
                 <Play className="h-5 w-5" />
                 Survival
               </button>
-              <button type="button" onClick={() => setModal('manual')} className="btn-steel cursor-pointer px-5 py-4 text-[0.78rem] short:px-4 short:py-2.5 short:text-[0.68rem]">
+              <button type="button" onClick={() => setModal('manual')} className="btn-steel cursor-pointer px-5 py-[clamp(0.6rem,1.8svh,1rem)] text-[0.78rem] short:px-4 short:py-2.5 short:text-[0.68rem]">
                 Field manual
               </button>
               {live ? (
-                <a href={buyUrl(ca)} target="_blank" rel="noreferrer" className="btn-steel px-5 py-4 text-[0.78rem] no-underline">
+                <a href={buyUrl(ca)} target="_blank" rel="noreferrer" className="btn-steel px-5 py-[clamp(0.6rem,1.8svh,1rem)] text-[0.78rem] no-underline">
                   Buy {tokenSymbol}
                   <ArrowUpRight className="h-4 w-4" />
                 </a>
               ) : (
-                <a href={X_URL} target="_blank" rel="noreferrer" className="btn-steel px-5 py-4 text-[0.78rem] no-underline">
+                <a href={X_URL} target="_blank" rel="noreferrer" className="btn-steel px-5 py-[clamp(0.6rem,1.8svh,1rem)] text-[0.78rem] no-underline">
                   <XIcon className="h-4 w-4" />
                   {X_HANDLE}
                 </a>
               )}
             </div>
-            <div className="mx-auto mt-6 grid max-w-[44rem] grid-cols-2 gap-2 sm:grid-cols-5 short:mt-3 short:gap-1.5">
+            <div className="mx-auto mt-[2.2svh] grid max-w-[44rem] grid-cols-2 gap-2 sm:grid-cols-5 short:mt-3 short:gap-1.5">
               <Stat label="Round" value={String(round)} />
               <Stat label="Purged" value={`${burnedPct.toFixed(2)}%`} tone="text-brass" />
               <Stat label="War chest" value={`${Math.round(fill * 100)}%`} tone="text-shield" />
               <Stat label="Best wave" value={String(hud.bestWave)} />
               <Stat label="Missions" value={`${Object.keys(campaign.stars).length} / ${MISSIONS.length}`} tone="text-garrison" />
             </div>
-            <div className="mt-4 flex flex-wrap items-center justify-center gap-2">
+            <div className="mt-[1.6svh] flex flex-wrap items-center justify-center gap-2">
               {perks ? (
                 <span className="flex items-center gap-2 rounded-[4px] border-2 border-brass/60 px-3 py-2 hud text-[0.6rem] text-brass">
                   <Wallet className="h-3.5 w-3.5" />
@@ -905,10 +905,10 @@ export function Game({ memex, onLeaveMemex }: { memex: boolean; onLeaveMemex: ()
               )}
               {walletError ? <span className="hud text-[0.58rem] text-enemy">{walletError}</span> : null}
             </div>
-            <p className="m-0 mt-2 hud text-[0.52rem] text-dust-dim">
+            <p className="m-0 mt-[0.8svh] hud text-[0.52rem] text-dust-dim mid:hidden">
               Hold any {tokenSymbol}: +{HOLDER_TIERS[1].bonusScrap} scrap · hold at least {HOLDER_TIERS[0].minPct}% of the supply: +{HOLDER_TIERS[0].bonusScrap} scrap and a free Sentry · top 10 on the board: a title. Read-only, nothing is spent.
             </p>
-            <div className="mt-4 flex flex-wrap items-center justify-center gap-2">
+            <div className="mt-[1.4svh] flex flex-wrap items-center justify-center gap-2">
               {live ? (
                 <>
                   <button type="button" onClick={copyCA} className="flex max-w-full cursor-pointer items-center gap-2 rounded-[4px] border-2 border-dashed border-steel-line px-3 py-1.5 font-mono text-[0.72rem] text-cream hover:border-brass sm:text-[0.78rem]">

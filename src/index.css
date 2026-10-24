@@ -16,6 +16,8 @@
 
 /* phones held sideways: little height, every pixel counts */
 @custom-variant short (@media (max-height: 520px));
+/* laptops and small desktops: enough width, not much height */
+@custom-variant mid (@media (max-height: 780px));
 
 /*
   BASTION: a war table at night. A top-down arena cut into a dark green field, steel panels with

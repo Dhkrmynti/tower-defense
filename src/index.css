@@ -1,0 +1,339 @@
+@import "tailwindcss";
+@import "@fontsource/pixelify-sans/700.css";
+@import "@fontsource/chakra-petch/600.css";
+@import "@fontsource/chakra-petch/700.css";
+@import "@fontsource-variable/space-grotesk";
+@import "@fontsource/jetbrains-mono/400.css";
+@import "@fontsource/jetbrains-mono/700.css";
+
+/* on phones the HUD lettering never drops below 10px */
+@media (max-width: 640px) {
+  .hud[class*='text-[0.4'],
+  .hud[class*='text-[0.5'] {
+    font-size: 0.625rem !important;
+  }
+}
+
+/* phones held sideways: little height, every pixel counts */
+@custom-variant short (@media (max-height: 520px));
+
+/*
+  BASTION: a war table at night. A top-down arena cut into a dark green field, steel panels with
+  rivets, brass readouts, cyan shield light, the red horde, and a stone fortress that grows.
+*/
+
+@theme {
+  /* the field */
+  --color-field: #0d1410;
+  --color-field-deep: #070b08;
+  --color-grid: #16231d;
+  --color-steel: #1b2a24;
+  --color-steel-line: #2f473c;
+  --color-rail: #43604f;
+  /* light and metal */
+  --color-brass: #f2b31f;
+  --color-brass-hot: #ffd96a;
+  --color-shield: #38e8ff;
+  --color-shield-deep: #0e7f93;
+  /* the horde */
+  --color-enemy: #ff3b3b;
+  --color-enemy-deep: #a8121f;
+  /* garrison pay */
+  --color-garrison: #9cff57;
+  /* stone and plates */
+  --color-stone: #b8b0a2;
+  --color-stone-dark: #6f685e;
+  --color-plate: #efe6cf;
+  --color-ink: #1b1f1a;
+  --color-ink-soft: #5d6459;
+  --color-cream: #f1efe6;
+  --color-dust: #aab5ab;
+  --color-dust-dim: #7f8a81;
+
+  /* legacy names used by the operator panel and the battle log drawer, mapped into this world */
+  --color-soot: #070b08;
+  --color-char: #0d1410;
+  --color-wood: #1b2a24;
+  --color-bark: #2f473c;
+  --color-ember: #ff3b3b;
+  --color-flame: #f2b31f;
+  --color-hot: #f1efe6;
+  --color-ash: #7f8a81;
+  --color-ash-light: #aab5ab;
+  --color-plaque: #efe6cf;
+  --color-star: #f1efe6;
+  --color-star-dim: #aab5ab;
+  --color-panel: #1b2a24;
+  --color-panel-line: #2f473c;
+  --color-paper: #efe6cf;
+  --color-pen: #1b1f1a;
+  --color-pen-soft: #5d6459;
+  --color-marker: #ff3b3b;
+  --color-ring: #f2b31f;
+  --color-ring-hot: #ffd96a;
+  --color-fuel: #9cff57;
+  --color-fuel-ink: #2f6b0c;
+  --color-night: #0d1410;
+
+  --font-display: "Pixelify Sans", "Chakra Petch", sans-serif;
+  --font-sign: "Pixelify Sans", "Chakra Petch", sans-serif;
+  --font-hud: "Chakra Petch", "Space Grotesk Variable", sans-serif;
+  --font-body: "Space Grotesk Variable", system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, monospace;
+
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+:root {
+  /* war chest fill 0..1, written by the page; charges the cyan glow over the field */
+  --charge: 0;
+  color-scheme: dark;
+}
+
+@layer base {
+  html {
+    background-color: var(--color-field);
+    color: var(--color-cream);
+    scrollbar-color: var(--color-steel-line) var(--color-field-deep);
+    overflow-anchor: none;
+  }
+  html,
+  body {
+    overscroll-behavior: none;
+  }
+  body {
+    margin: 0;
+    font-family: var(--font-body);
+    background-color: var(--color-field);
+    color: var(--color-cream);
+    -webkit-font-smoothing: antialiased;
+    -webkit-tap-highlight-color: transparent;
+    caret-color: var(--color-brass);
+  }
+  ::selection {
+    background: var(--color-brass);
+    color: var(--color-ink);
+  }
+  :focus-visible {
+    outline: 3px solid var(--color-brass);
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+  a {
+    text-underline-offset: 0.22em;
+  }
+}
+
+::-webkit-scrollbar {
+  width: 12px;
+  height: 12px;
+}
+::-webkit-scrollbar-track {
+  background: var(--color-field-deep);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-steel-line);
+  border: 3px solid var(--color-field-deep);
+  border-radius: 999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-brass);
+}
+
+.tabular {
+  font-variant-numeric: tabular-nums lining-nums;
+}
+
+/* Everything below is a component layer, so Tailwind utilities on an element still win. */
+@layer components {
+  /* ───────── Voices ───────── */
+  .display {
+    font-family: var(--font-display);
+    font-weight: 700;
+    line-height: 0.95;
+  }
+  .sign-lettering {
+    font-family: var(--font-display);
+    font-weight: 700;
+    letter-spacing: 0.01em;
+    text-shadow: 0 3px 0 rgba(7, 11, 8, 0.7);
+  }
+  .hud {
+    font-family: var(--font-hud);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+  }
+
+  /* ───────── The field at night ───────── */
+  .war-table {
+    background:
+      radial-gradient(80% 50% at 50% 0%, color-mix(in oklab, var(--color-shield) calc(4% + var(--charge) * 14%), transparent) 0%, transparent 60%),
+      radial-gradient(70% 50% at 50% 110%, #16261d 0%, transparent 70%),
+      linear-gradient(180deg, #0a100c 0%, var(--color-field) 40%, #0a100c 100%);
+  }
+  .grid-field {
+    background-image:
+      linear-gradient(to right, var(--color-grid) 1px, transparent 1px),
+      linear-gradient(to bottom, var(--color-grid) 1px, transparent 1px);
+    background-size: 32px 32px;
+  }
+
+  /* a steel panel with a hairline frame and four rivets */
+  .panel {
+    position: relative;
+    background:
+      radial-gradient(circle at 10px 10px, var(--color-rail) 2.5px, transparent 3.2px),
+      radial-gradient(circle at calc(100% - 10px) 10px, var(--color-rail) 2.5px, transparent 3.2px),
+      radial-gradient(circle at 10px calc(100% - 10px), var(--color-rail) 2.5px, transparent 3.2px),
+      radial-gradient(circle at calc(100% - 10px) calc(100% - 10px), var(--color-rail) 2.5px, transparent 3.2px),
+      linear-gradient(180deg, rgba(255, 255, 255, 0.03), rgba(0, 0, 0, 0.2)),
+      var(--color-steel);
+    border: 2px solid var(--color-steel-line);
+    border-radius: 6px;
+    box-shadow: 0 18px 40px -18px rgba(0, 0, 0, 0.8);
+  }
+
+  /* a stamped brass or parchment plate: the CA, the field manual */
+  .plate {
+    position: relative;
+    background: var(--color-plate);
+    color: var(--color-ink);
+    border-radius: 6px;
+    box-shadow: 0 22px 40px -20px rgba(0, 0, 0, 0.8), inset 0 0 0 2px rgba(27, 31, 26, 0.9), inset 0 0 0 6px var(--color-plate), inset 0 0 0 7px rgba(27, 31, 26, 0.25);
+  }
+  .plate-shadow {
+    filter: drop-shadow(0 22px 30px rgba(0, 0, 0, 0.55));
+  }
+  .plate-rule {
+    height: 0;
+    border-top: 2px dashed rgba(27, 31, 26, 0.3);
+  }
+  /* the battle log drawer's paper is a stamped plate */
+  .paper {
+    position: relative;
+    background: var(--color-plate);
+    color: var(--color-ink);
+    border-radius: 6px 0 0 6px;
+    box-shadow: 0 22px 40px -20px rgba(0, 0, 0, 0.7);
+  }
+
+  /* charge cells of the war chest */
+  .cell {
+    display: block;
+    border-radius: 2px;
+    background: #121c17;
+    box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.6);
+    transition: background 0.4s, box-shadow 0.4s;
+  }
+  .cell[data-lit='true'] {
+    background: var(--color-shield);
+    box-shadow: 0 0 8px 1px rgba(56, 232, 255, 0.6), inset 0 0 0 1px rgba(255, 255, 255, 0.35);
+  }
+  .cell[data-lit='true'][data-hot='true'] {
+    background: var(--color-brass);
+    box-shadow: 0 0 10px 2px rgba(242, 179, 31, 0.7), inset 0 0 0 1px rgba(255, 255, 255, 0.35);
+  }
+
+  /* ───────── Buttons ───────── */
+  .btn-fire,
+  .btn-plate,
+  .btn-steel {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.55rem;
+    font-family: var(--font-hud);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    border-radius: 4px;
+  }
+  .btn-fire {
+    background: var(--color-brass);
+    color: var(--color-ink);
+    box-shadow: 0 10px 22px -10px rgba(242, 179, 31, 0.9), inset 0 -3px 0 rgba(0, 0, 0, 0.22);
+    transition: transform 0.25s var(--ease-out-expo), box-shadow 0.25s var(--ease-out-expo), background-color 0.2s;
+  }
+  @media (hover: hover) {
+    .btn-fire:hover {
+      background: var(--color-brass-hot);
+      transform: translateY(-2px);
+      box-shadow: 0 16px 28px -12px rgba(242, 179, 31, 0.95), inset 0 -3px 0 rgba(0, 0, 0, 0.22);
+    }
+  }
+  .btn-fire:active {
+    transform: translateY(1px);
+  }
+  .btn-fire[aria-disabled='true'],
+  .btn-fire:disabled {
+    background: var(--color-steel-line);
+    color: var(--color-dust);
+    box-shadow: none;
+    transform: none;
+    cursor: not-allowed;
+  }
+  .btn-plate {
+    color: var(--color-ink);
+    border: 2px solid var(--color-ink);
+    transition: background-color 0.2s, color 0.2s;
+  }
+  .btn-plate:hover {
+    background: var(--color-ink);
+    color: var(--color-plate);
+  }
+  .btn-steel {
+    color: var(--color-cream);
+    border: 2px solid var(--color-steel-line);
+    transition: border-color 0.2s, color 0.2s, background-color 0.2s;
+  }
+  .btn-steel:hover {
+    border-color: var(--color-brass);
+    color: var(--color-brass);
+  }
+
+  /* milestone track and markers */
+  .track {
+    position: relative;
+    height: 14px;
+    border-radius: 999px;
+    background: #121c17;
+    box-shadow: inset 0 0 0 2px var(--color-steel-line);
+    overflow: visible;
+  }
+  .track-fill {
+    position: absolute;
+    inset: 3px auto 3px 3px;
+    border-radius: 999px;
+    background: linear-gradient(90deg, var(--color-shield-deep), var(--color-shield));
+    transition: width 1.2s var(--ease-out-expo);
+  }
+}
+
+/* ───────── Motion ───────── */
+@media (prefers-reduced-motion: no-preference) {
+  .ticker-run {
+    animation: ticker 42s linear infinite;
+  }
+  .ticker-host:hover .ticker-run {
+    animation-play-state: paused;
+  }
+  .pulse-shield {
+    animation: pulse-shield 2.4s ease-in-out infinite;
+  }
+  .blink {
+    animation: blink 1.1s steps(1) infinite;
+  }
+}
+@keyframes ticker {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+@keyframes pulse-shield {
+  0%, 100% { opacity: 0.55; }
+  50% { opacity: 1; }
+}
+@keyframes blink {
+  0%, 60% { opacity: 1; }
+  61%, 100% { opacity: 0.25; }
+}

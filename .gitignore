@@ -1,0 +1,43 @@
+# Logs
+logs
+*.log
+bot-logs.json
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+node_modules
+dist
+dist-ssr
+*.local
+.env
+.env.*
+!.env.example
+
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# Holds the operator private key once saved from /memex
+bot-config.json
+
+# Impeccable local review captures
+.impeccable/review/
+
+# Local browser test snapshots
+.playwright-mcp/
+
+# Local e2e run (test/e2e.ts)
+.e2e/
+bot-run.json
+!.env.graveburn.example
+!.env.engine.example
